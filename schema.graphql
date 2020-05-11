@@ -1,14 +1,65 @@
 "Mutations have side effects, such as mutating data or triggering a task"
 type Mutation{
-"A test mutation that returns whatever string you send it"
-echo(
-"Any string"
-str: String
-): String
+"create a note"
+createNote(note: CreateNoteInput!): Note!
+
+"update a note"
+updateNote(id: ID!, note: UpdateNoteInput): Note!
+
+"delete a note"
+deleteNote(id: ID!): Note!
 }
 
+
 "Queries return all requested data, without any side effects"
-type Query{
-"A test query"
-ping: String!
+type Query {
+  "Get one note by ID"
+  note(
+    "The ID of the note you want data for"
+    id: ID!
+  ): Note
+
+  "Get all notes"
+  notes: [Note]
+  }
+  
+  "a note" 
+  type Note {
+  "Note ID"
+  id: ID!
+  
+    "time note was created at"
+  createdAt: String!
+  
+    "Time note was last updated"
+  updatedAt: String!
+  
+    "whether this specific note is archived"
+  isArchived: Boolean!
+  
+  "Note text, which may contain markdown"
+  text: String!
+  }
+input CreateNoteInput{
+    "Note ID"
+    id: ID
+  
+    "time note was created at"
+    createdAt: String
+  
+    "Time note was last updated"
+    updatedAt: String
+  
+    "whether this specific note is archived"
+    isArchived: Boolean
+  
+    "Note text, which may contain markdown"
+    text: String!
+}
+input UpdateNoteInput{
+    "whether this specific note is archived"
+    isArchived: Boolean
+  
+    "Note text, which may contain markdown"
+    text: String
 }
